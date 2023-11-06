@@ -10,14 +10,26 @@
 <body>
     <header>
         <div class="topnavright">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ url('viewBlog.html') }}">Destinations</a></li>
-            <li><a href="{{ url('contactUs.html') }}">Bookings</a></li>
+            <li><a href="{{ url('index.html') }}">Home</a></li>
+            <li><a href="{{ url('viewBlog.html') }}">Blog</a></li>
+            <li><a href="{{ url('contactUs.html') }}">Contact Us</a></li>
         </div>
         <div class="topnav">
-            <li><a href="{{ route('signup') }}">Sign Up</a></li>
-            <li><a href="{{ route('signin') }}">Sign In</a></li>
-        </div>
+            @guest
+
+
+    <!-- Show these links for guests (not authenticated users) -->
+    <li><a href="{{ route('signup') }}">Sign Up</a></li>
+    <li><a href="{{ route('signin') }}">Sign In</a></li>
+      
+     @else
+                <!-- Show this link for authenticated users -->
+                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @endguest 
+    </div>
     </header>
 
 
@@ -27,5 +39,6 @@
 
     <footer>
         <p>&copy; 2023 Travel and Tourism. All rights reserved.</p>
-    </footer></body>
+    </footer>
+</body>
 </html>
