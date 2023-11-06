@@ -22,9 +22,22 @@
     <li><a href="{{ route('signup') }}">Sign Up</a></li>
     <li><a href="{{ route('signin') }}">Sign In</a></li>
       
+
+    resources/views/auth/logout.blade.php
+form:
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+    <button type="submit">Logout</button>
+</form>
+
      @else
                 <!-- Show this link for authenticated users -->
-                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a></li>
+                <li>
+                <a href="{{ route('logout') }}"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 Sign Out
+                </a>
+            </li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
