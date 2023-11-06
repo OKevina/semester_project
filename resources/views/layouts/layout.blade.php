@@ -10,9 +10,9 @@
 <body>
     <header>
         <div class="topnavright">
-            <li><a href="{{ url('index.html') }}">Home</a></li>
-            <li><a href="{{ url('viewBlog.html') }}">Blog</a></li>
-            <li><a href="{{ url('contactUs.html') }}">Contact Us</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
+            <li><a href="{{ url('viewBlog.html') }}">Destinations</a></li>
+            <li><a href="{{ url('contactUs.html') }}">Bookings</a></li>
         </div>
         <div class="topnav">
             <li><a href="{{ route('signup') }}">Sign Up</a></li>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Events\Registered;
- use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmationMail;
 use App\Models\User;
@@ -17,18 +17,21 @@ class RegistrationController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the request data (e.g., name, email, and password)
+        // Validate the request data (e.g., name, email, password, and role)
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
+            'role' => 'required|in:user,admin', // Ensure the role is one of these values
         ]);
 
         // Create a new user
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->passwordhash = bcrypt($request->input('passwordhash'));
+        $user->passwordhash = bcrypt($request->input('password'));
+        $user->role = $request->input('role'); // Assign the user's role
+
         $user->save();
 
         // Generate and store confirmation token
@@ -40,9 +43,6 @@ class RegistrationController extends Controller
         Mail::to($user->email)->send(new ConfirmationMail($ConfirmationToken));
 
         return view('confirmation');
-
     }
-
-
-
 }
+

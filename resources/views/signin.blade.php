@@ -16,7 +16,7 @@
 
             <button type="submit">Sign In</button>
         </form>
-        <p>Don't have an account? <a href="{{ url('signUp.html') }}">Sign Up</a></p>
+        <p>Don't have an account? <a href="{{ route('signup') }}">Sign Up</a></p>
     </section>
 </main>
 

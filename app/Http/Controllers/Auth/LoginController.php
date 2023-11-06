@@ -19,7 +19,8 @@ class LoginController extends Controller
             if ($userStatus === 'Unconfirmed') {
                 return redirect('confirmation_page');
             } else if ($userStatus === 'confirmed') {
-                return redirect('/home');
+                return redirect()->route('home');
+
             } else {
                 return redirect('confirmation_page');
             }
@@ -36,9 +37,5 @@ class LoginController extends Controller
     return view('signin');
 }
 
-protected function authenticated(Request $request, $user)
-{
-    return redirect()->route('/');
-}
 }
 
