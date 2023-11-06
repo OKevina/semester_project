@@ -88,9 +88,6 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `name`, `Email`, `PasswordHash`, `RegistrationDate`, `Status`, `ConfirmationToken`, `created_at`, `updated_at`, `role`) VALUES
-(18, 'kevin', 'kevin.w.otieno@gmail.com', '$2y$10$7A5wWUSRPHpCZ7HjLK8LLex.c2ftWDMuY.zNXRrkw8R3igKYRTh02', NULL, 'confirmed', NULL, '2023-11-06 02:21:03', '2023-11-06 02:21:03', 'user'),
-(19, 'kevin', 'kevin.otie-@strathmore.edu', '$2y$10$2QtsGOU9Af71zq43I1M4IeIoo5gwGMCsoru/xgffY66RslcZxQecW', NULL, 'confirmed', NULL, '2023-11-06 02:24:40', '2023-11-06 02:24:40', 'user');
 
 --
 -- Indexes for dumped tables
