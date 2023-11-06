@@ -28,6 +28,7 @@ Route::get('/signup', [RegistrationController::class, 'showSignUpForm'])->name('
 
 // Route to process the signup form
 Route::post('/signup', [RegistrationController::class, 'register'])->name('signup.process');
+Route::post('/logout', 'Auth\LogoutController@logout')->name('logout');
 
 Route::get('/confirmation_page', function () {
     return view('confirmation');
