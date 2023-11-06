@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2023 at 07:43 PM
+-- Generation Time: Nov 06, 2023 at 09:01 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -80,16 +80,17 @@ CREATE TABLE `users` (
   `Status` varchar(20) NOT NULL DEFAULT 'Unconfirmed',
   `ConfirmationToken` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `role` enum('user','admin') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `name`, `Email`, `PasswordHash`, `RegistrationDate`, `Status`, `ConfirmationToken`, `created_at`, `updated_at`) VALUES
-(16, 'Kevin', 'kevin.otie-@strathmore.edu', '$2y$10$aV2J6OGTJc8wbhV0IcK7ZefYnweMAXoOBfc7WqCwb/TziI.aq7AB6', NULL, 'confirmed', NULL, '2023-10-27 16:44:25', '2023-10-27 16:44:25'),
-(17, 'Kevin', 'kevin.w.otieno@gmail.com', '$2y$10$0CIYZcLuQXCwoFzhFzL/3uDpa3ViHhC.bY83RAVx1nKIWH/X4/WAq', NULL, 'confirmed', NULL, '2023-10-27 16:52:02', '2023-10-27 16:52:02');
+INSERT INTO `users` (`ID`, `name`, `Email`, `PasswordHash`, `RegistrationDate`, `Status`, `ConfirmationToken`, `created_at`, `updated_at`, `role`) VALUES
+(18, 'kevin', 'kevin.w.otieno@gmail.com', '$2y$10$7A5wWUSRPHpCZ7HjLK8LLex.c2ftWDMuY.zNXRrkw8R3igKYRTh02', NULL, 'confirmed', NULL, '2023-11-06 02:21:03', '2023-11-06 02:21:03', 'user'),
+(19, 'kevin', 'kevin.otie-@strathmore.edu', '$2y$10$2QtsGOU9Af71zq43I1M4IeIoo5gwGMCsoru/xgffY66RslcZxQecW', NULL, 'confirmed', NULL, '2023-11-06 02:24:40', '2023-11-06 02:24:40', 'user');
 
 --
 -- Indexes for dumped tables
@@ -148,7 +149,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
