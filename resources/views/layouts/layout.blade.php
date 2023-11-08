@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class="topnavright">
-            <li><a href="{{ url('index.html') }}">Home</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ url('viewBlog.html') }}">Blog</a></li>
             <li><a href="{{ url('contactUs.html') }}">Contact Us</a></li>
         </div>
@@ -21,10 +21,9 @@
     <!-- Show these links for guests (not authenticated users) -->
     <li><a href="{{ route('signup') }}">Sign Up</a></li>
     <li><a href="{{ route('signin') }}">Sign In</a></li>
-      
 
-    resources/views/auth/logout.blade.php
-form:
+
+
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf
     <button type="submit">Logout</button>
@@ -41,7 +40,7 @@ form:
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-            @endguest 
+            @endguest
     </div>
     </header>
 

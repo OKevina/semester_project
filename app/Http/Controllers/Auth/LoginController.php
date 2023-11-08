@@ -1,66 +1,37 @@
 <?php
 
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function showLoginForm()
     {
-        $credentials = $request->only('email', 'password');
+        return view('signin');
+    }
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $userStatus = $user->status;
+    public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+    $remember = $request->has('remember'); // Check if "Remember Me" is selected
 
-            if ($userStatus === 'Unconfirmed') {
-                return redirect('confirmation_page');
-            } else if ($userStatus === 'confirmed') {
-                return redirect()->route('home');
+    if (Auth::attempt($credentials, $remember)) {
+        $user = Auth::user();
 
-            } else {
-                return redirect('confirmation_page');
-            }
-        } else {
-            return redirect('signin')->with('error', 'Invalid email or password');
+        if ($user->status === 'Unconfirmed') {
+            return redirect()->route('confirmation_page');
+        } else if ($user->status === 'confirmed') {
+            return redirect()->route('home');
         }
     }
-    /**
-     * Summary of showSignInForm
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function showSignInForm()
-{
-    return view('signin');
-}
 
+    return redirect()->route('signin')->with('error', 'Invalid email or password');
 }
 
 
-
-LogoutController.php;
-namespace App\Http\Controllers\Auth;
-
-use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
-class LogoutController extends Controller
-{
-    public function logout(Request $request)
-    {
-        // Perform the logout operation
-        auth()->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
 }
-

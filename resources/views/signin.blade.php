@@ -14,8 +14,12 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
+            <label for="remember">Remember Me</label>
+            <input type="checkbox" name="remember" id="remember">
+
             <button type="submit">Sign In</button>
         </form>
+
         <p>Don't have an account? <a href="{{ route('signup') }}">Sign Up</a></p>
     </section>
 </main>

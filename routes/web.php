@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::post('/register', 'RegistrationController@register');
 
-Route::get('/signin', 'App\Http\Controllers\Auth\LoginController@showSignInForm')->name('signin');
+Route::get('/signin', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('signin');
 Route::post('/signin', 'App\Http\Controllers\Auth\LoginController@login')->name('signin.process');
 
 // Route to display the signup form
