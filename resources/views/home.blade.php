@@ -7,7 +7,7 @@
         <div class="hero-content">
             <h1>Welcome to Travel and Tourism</h1>
             <p>We are delighted to have you here and excited to be your gateway to a world of unforgettable adventures and remarkable destinations. Whether you're seeking sandy beaches, majestic mountains, vibrant cities, or cultural experiences, our website is designed to inspire and assist you in planning your next remarkable journey. Explore our diverse collection of destinations, discover helpful travel tips, and let your wanderlust guide you to extraordinary experiences. Get ready to embark on an incredible travel journey and create memories that will last a lifetime. Welcome aboard!</p>
-            <a href="{{ url('viewBlog.html') }}" class="cta-button">Explore Now</a>
+            <a href="{{ url('views/destination/index') }}" class="cta-button">Explore Now</a>
         </div>
     </section>
 

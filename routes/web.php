@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\HotelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => 'web'], function () {
+    // Your authentication routes here
+});
 
 Route::get('/', function () {
     return view('home');
@@ -36,3 +41,13 @@ Route::get('/confirmation_page', function () {
 
 Route::get('/confirmation/{token}', 'App\Http\Controllers\ConfirmationController@confirm')->name('confirmation');
 
+
+
+Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
+
+
+// Add routes for updating, deleting, and managing hotel images in HotelController
+Route::post('/hotel/update', [HotelController::class, 'update'])->name('hotel.update');
+Route::post('/hotel/delete', [HotelController::class, 'delete'])->name('hotel.delete');
+Route::post('/hotel/update-image', [HotelController::class, 'updateImage'])->name('hotel.updateImage');
+Route::post('/hotel/delete-image', [HotelController::class, 'deleteImage'])->name('hotel.deleteImage');

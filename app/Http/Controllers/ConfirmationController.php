@@ -22,7 +22,7 @@ class ConfirmationController extends Controller
                     ->where('ConfirmationToken', $token)
                     ->update([
                         'status' => 'confirmed',
-                        'ConfirmationToken' => null,
+                        'ConfirmationToken' => Null,
                     ]);
 
                 return "Account confirmed successfully!";

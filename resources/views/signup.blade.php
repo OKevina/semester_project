@@ -27,7 +27,7 @@
             <button type="submit">Sign Up</button>
         </form>
 
-        <p>Already have an account? <a href="signIn.html">Sign In</a></p>
+        <p>Already have an account? <a href="signin">Sign In</a></p>
     </section>
 </main>
 @endsection
