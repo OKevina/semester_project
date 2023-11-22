@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinationController;
@@ -42,3 +41,13 @@ Route::get('/confirmation_page', function () {
 
 Route::get('/confirmation/{token}', 'App\Http\Controllers\ConfirmationController@confirm')->name('confirmation');
 
+
+
+Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
+
+
+// Add routes for updating, deleting, and managing hotel images in HotelController
+Route::post('/hotel/update', [HotelController::class, 'update'])->name('hotel.update');
+Route::post('/hotel/delete', [HotelController::class, 'delete'])->name('hotel.delete');
+Route::post('/hotel/update-image', [HotelController::class, 'updateImage'])->name('hotel.updateImage');
+Route::post('/hotel/delete-image', [HotelController::class, 'deleteImage'])->name('hotel.deleteImage');
