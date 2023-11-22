@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,13 @@ Route::get('/confirmation_page', function () {
 
 Route::get('/confirmation/{token}', 'App\Http\Controllers\ConfirmationController@confirm')->name('confirmation');
 
+
+Route::middleware(['auth','role:user'])->group(function () {
+    Route::get('/user-bookings', [BookingController::class, 'userBookings'])->name('user.bookings');
+    Route::post('/book-trip/{destinationId}', [BookingController::class, 'bookTrip'])->name('book.trip');
+    Route::post('/cancel-trip/{bookingId}', [BookingController::class, 'cancelTrip'])->name('cancel.trip');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/all-bookings', [BookingController::class, 'allBookings'])->name('admin.bookings');
+});
