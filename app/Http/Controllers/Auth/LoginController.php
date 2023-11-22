@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class LoginController extends Controller
 {
@@ -16,22 +18,24 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-{
-    $credentials = $request->only('email', 'password');
-    $remember = $request->has('remember'); // Check if "Remember Me" is selected
+    {
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
 
-    if (Auth::attempt($credentials, $remember)) {
-        $user = Auth::user();
+        if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
 
-        if ($user->status === 'Unconfirmed') {
-            return redirect()->route('confirmation_page');
-        } else if ($user->status === 'confirmed') {
-            return redirect()->route('home');
+            if ($user->status === 'Unconfirmed') {
+                return redirect()->route('confirmation_page');
+            }
+
+            // Laravel will automatically redirect to the intended URL or the home route
+            // based on the user's authentication status, so no need for explicit redirection here
         }
+
+        return redirect()->route('signin')->with('error', 'Invalid email or password');
     }
 
-    return redirect()->route('signin')->with('error', 'Invalid email or password');
-}
 
 
 }
