@@ -21,7 +21,7 @@
                         @endforeach
                     </div>
 
-                    <a href="#" class="book-now">Book Now</a>
+                    <a href="{{ route('user.bookings') }}" class="book-now">Book Now</a>
                 </div>
             @endforeach
         </div>

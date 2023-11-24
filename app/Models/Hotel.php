@@ -9,6 +9,11 @@ class Hotel extends Model
 {
     use HasFactory;
 
+    public function getRouteKeyName()
+    {
+        return 'destination_id';
+    }
+
     public function destination()
     {
         return $this->belongsTo(Destination::class);

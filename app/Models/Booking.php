@@ -7,16 +7,26 @@ use Illuminate\Support\Str;
 
 class Booking extends Model
 {
+
+
+        protected $fillable = [
+            'users_id',
+            'destination_id',
+            'NumTravelers',
+            'TotalAmount',
+            'BookingDate',
+
+        ];
     protected $table = 'bookings';
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'ID', 'ID');
+        return $this->belongsTo(User::class, 'id', 'id');
     }
 
-    public function destination()
+    public function hotel()
     {
-        return $this->belongsTo(Destination::class, 'DestinationID', 'DestinationID');
+        return $this->belongsTo(Hotel::class, 'destination_id', 'destination_id');
     }
 
     public function generateUniqueCode()

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,21 +20,25 @@ Route::group(['middleware' => 'web'], function () {
     // Your authentication routes here
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::post('/register', 'RegistrationController@register');
+Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@register')->name('register');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register.form');
 
-Route::get('/signin', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('signin');
-Route::post('/signin', 'App\Http\Controllers\Auth\LoginController@login')->name('signin.process');
+Route::get('/signin', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
+Route::post('/signin', 'App\Http\Controllers\Auth\LoginController@login')->name('login');
 
 // Route to display the signup form
-Route::get('/signup', [RegistrationController::class, 'showSignUpForm'])->name('signup');
+//Route::get('/signup', [RegistrationController::class, 'showSignUpForm'])->name('signup');
 
 // Route to process the signup form
-Route::post('/signup', [RegistrationController::class, 'register'])->name('signup.process');
-Route::post('/logout', 'Auth\LogoutController@logout')->name('logout');
+Route::post('/logout', 'App\Http\Controllers\Auth\LogoutController@logout')->name('logout');
 
 Route::get('/confirmation_page', function () {
     return view('confirmation');
@@ -51,3 +56,17 @@ Route::post('/hotel/update', [HotelController::class, 'update'])->name('hotel.up
 Route::post('/hotel/delete', [HotelController::class, 'delete'])->name('hotel.delete');
 Route::post('/hotel/update-image', [HotelController::class, 'updateImage'])->name('hotel.updateImage');
 Route::post('/hotel/delete-image', [HotelController::class, 'deleteImage'])->name('hotel.deleteImage');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/book-trip', [BookingController::class, 'userBookings'])->name('user.bookings');
+
+    Route::post('/book-trip', [BookingController::class, 'bookTrip'])->name('book.trip');
+    Route::delete('/cancel-trip/{bookingId}', [BookingController::class, 'cancelTrip'])->name('cancel.trip');
+});
+
+// Admin-related routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/bookings', [BookingController::class, 'allBookings'])->name('admin.bookings');
+});
+

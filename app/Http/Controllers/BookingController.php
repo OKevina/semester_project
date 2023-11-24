@@ -5,31 +5,45 @@ namespace App\Http\Controllers;
 use App\Mail\BookingCancellation;
 use App\Mail\BookingConfirmation;
 use App\Models\Booking;
+use App\Models\Hotel;
+use App\Models\User;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
+
+
+
+
 {
-    public function bookTrip($destinationId)
+    public function bookTrip(Request $request, Hotel $hotel)
     {
         $user = auth()->user();
-        $destination = Destination::findOrFail($destinationId);
 
-        // Create a new booking
-        $booking = new Booking();
-        $booking->ID = $user->ID;
-        $booking->DestinationID = $destination->DestinationID;
+        // Validate the request data
+        $request->validate([
+            'NumTravelers' => 'required|integer|min:1',
+        ]);
 
-        $booking->TotalAmount = $destination->Price * $booking->NumTravelers;
-        $booking->BookingDate = now();
+        // Create a new Booking instance with the necessary data
+        $booking = new Booking([
+            'users_id' => $user->id,
+            'destination_id' => $hotel->destination_id,
+            'NumTravelers' => $request->input('NumTravelers'),
+            'TotalAmount' => $hotel->price * $request->input('NumTravelers'),
+            'BookingDate' => now(),
+        ]);
+
+        // Save the booking
         $booking->save();
 
-        // Send booking confirmation email
+        // Send confirmation email
         Mail::to($user->email)->send(new BookingConfirmation($booking));
 
         return redirect()->route('user.bookings')->with('success', 'Booking successful!');
     }
+
 
     public function cancelTrip($bookingId)
     {
@@ -47,9 +61,14 @@ class BookingController extends Controller
 
     public function userBookings()
     {
-        $user = auth()->user();
-        $bookings = Booking::with('destination')->where('ID', $user->ID)->get();
-        return view('booking.user', compact('bookings'));
+
+
+        $userBookings = Booking::with('hotel')->where('users_id', auth()->user()->id)->get();
+        $hotels = Hotel::select('id', 'name')->distinct()->get();
+        return view('emails.booking.user', compact('userBookings', 'hotels'));
+
+
+
     }
 
     public function allBookings()

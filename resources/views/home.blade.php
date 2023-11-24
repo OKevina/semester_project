@@ -1,8 +1,7 @@
 @extends('layouts.layout')
 
-@section('title', 'Travel and Tourism')
-
 @section('content')
+
     <section class="hero-section">
         <div class="hero-content">
             <h1>Welcome to Travel and Tourism</h1>
@@ -34,7 +33,7 @@
                 <h3>NEW ZEALAND</h3>
                 <p>New Zealand, located in the southwestern Pacific Ocean, is a captivating destination renowned for its stunning natural landscapes and rich Maori culture. From majestic mountains and pristine lakes to lush forests and picturesque coastline, New Zealand offers a diverse range of experiences for outdoor enthusiasts and adventure seekers. Immerse yourself in the fascinating Maori heritage, explore vibrant cities like Auckland and Wellington, and discover the enchanting filming locations of famous movie trilogies such as "The Lord of the Rings" and "The Hobbit." With warm hospitality and breathtaking beauty, New Zealand is an unforgettable journey for all travelers.</p>
             </div>
-        </div>
-    </section>
 
+    </section>
+    <!-- Your custom content ends here -->
 @endsection

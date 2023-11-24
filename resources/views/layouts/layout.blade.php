@@ -72,7 +72,7 @@
     <header>
         <div class="topnavleft">
             <a href="{{ route('home') }}" class="nav-link">Home</a>
-            <a href="{{ route('destinations.index') }}" class="nav-link">Blog</a>
+            <a href="{{ route('destinations.index') }}" class="nav-link">Destinations</a>
             <a href="{{ url('contactUs.html') }}" class="nav-link">Contact Us</a>
         </div>
 
@@ -81,8 +81,8 @@
 
 
     <!-- Show these links for guests (not authenticated users) -->
-      <a href="{{ route('signup') }}" class="nav-link">Sign Up</a>
-      <a href="{{ route('signin') }}" class="nav-link">Sign In</a>
+      <a href="{{ route('register') }}" class="nav-link">Sign Up</a>
+      <a href="{{ route('login') }}" class="nav-link">Sign In</a>
 
 
 
