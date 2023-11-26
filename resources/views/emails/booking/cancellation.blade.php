@@ -12,7 +12,7 @@
 
     <p>Details:</p>
     <ul>
-   <!--     <li>Hotel: {{ optional($booking->hotel)->name }}</li>-->
+        <li>Hotel: {{ optional($booking->hotel)->name }}</li>
         <!-- Add more booking details here -->
     </ul>
 
