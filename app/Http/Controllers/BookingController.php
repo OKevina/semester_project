@@ -39,6 +39,7 @@ class BookingController extends Controller
         $booking->save();
 
         // Send confirmation email
+
         Mail::to($user->email)->send(new BookingConfirmation($booking));
 
         return redirect()->route('user.bookings')->with('success', 'Booking successful!');

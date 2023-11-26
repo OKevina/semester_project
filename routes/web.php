@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Admin-related routes
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::group(['middleware' => 'admin'], function ()  {
     Route::get('/admin/bookings', [BookingController::class, 'allBookings'])->name('admin.bookings');
 });
 

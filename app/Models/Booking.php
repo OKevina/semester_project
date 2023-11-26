@@ -21,7 +21,7 @@ class Booking extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'id');
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
 
     public function hotel()

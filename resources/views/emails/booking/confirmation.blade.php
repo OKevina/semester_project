@@ -5,7 +5,7 @@
 
 <p>Details:</p>
 <ul>
-    <li>Destination: {{ optional($booking->destination)->DestinationName }}</li>
+    <li>Hotel : {{ optional($booking->hotel)->name }}</li>
 
 </ul>
 

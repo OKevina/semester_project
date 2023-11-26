@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use GuzzleHttp\Psr7\Request;
+//use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -22,6 +25,9 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        sendFailedLoginResponse as traitSendFailedLoginResponse;
+    }
 
     /**
      * Where to redirect users after login.
@@ -42,14 +48,29 @@ class LoginController extends Controller
 
 
     protected $username;
-    public function username()
-    {
-        $loginValue = request('username');
-        $this->username = filter_var($loginValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        request()->merge([$this->username => $loginValue]);
 
-        return property_exists($this, 'username') ? $this->username : 'email';
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            // If the user with the provided email exists, but the password is incorrect
+            if (Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    $this->username() => [trans('auth.password_incorrect')],
+                ]);
+            }
+        }
+
+        // If the user with the provided email does not exist
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.user_not_found')],
+        ]);
     }
+
+
+
 
 }
 
