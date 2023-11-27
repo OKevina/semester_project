@@ -22,6 +22,13 @@
                         <input type="file" name="image_file" accept="image/*" required>
                         <button type="submit" name="update_image" onclick="return confirm('Are you sure you want to update this image?')">Update Image</button>
                     </form>
+
+                    <!-- Add delete image button -->
+                    <form action="{{ route('hotel.deleteImage') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="image_id" value="{{ $image->id }}">
+                        <button type="submit" name="delete_image" onclick="return confirm('Are you sure you want to delete this image?')">Delete Image</button>
+                    </form>
                 @endforeach
             </div>
 
