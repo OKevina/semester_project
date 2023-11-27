@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+// App\Http\Middleware\RedirectIfAuthenticated.php
+
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
@@ -9,21 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null  ...$guards
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // Check the user's role and redirect accordingly
+                if (auth()->user()->role == 'admin') {
+                    return redirect()->route('admin.edit.page');
+                } else {
+                    return redirect(RouteServiceProvider::HOME);
+                }
             }
         }
 

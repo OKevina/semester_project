@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -20,9 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-
         'email',
         'password',
+        'username',
+        'role', // Add 'role' to the $fillable array
     ];
 
     /**
@@ -43,4 +43,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * User constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Set the default role if not provided
+        $this->attributes['role'] = $this->attributes['role'] ?? 'user';
+    }
 }

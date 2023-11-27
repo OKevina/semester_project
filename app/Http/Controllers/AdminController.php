@@ -1,13 +1,26 @@
 <?php
 
+// app/Http/Controllers/AdminController.php
+
+// AdminController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\HotelImage;
 
-class HotelController extends Controller
+class AdminController extends Controller
 {
+    // Display the admin edit page
+    public function showEditPage()
+    {
+        // Fetch all hotels data
+        $allHotels = Hotel::all();
+
+        return view('admin_edit_page', ['allHotels' => $allHotels]);
+    }
+
     // Update hotel information
     public function update(Request $request)
     {
@@ -52,21 +65,33 @@ class HotelController extends Controller
 
     // Update hotel image information
     public function updateImage(Request $request)
-    {
-        $imageId = $request->input('image_id');
-        $imageFilename = $request->input('image_filename');
+{
+    $imageId = $request->input('image_id');
 
-        $image = HotelImage::find($imageId);
+    // Assuming you have an input field named 'update_image' for file upload
+    $newImage = $request->file('update_image');
 
-        if (!$image) {
-            return redirect()->back()->with('error', 'Image not found');
-        }
+    $image = HotelImage::find($imageId);
 
-        $image->image_filename = $imageFilename;
-        $image->save();
-
-        return redirect()->back()->with('success', 'Image information updated successfully');
+    if (!$image) {
+        return redirect()->back()->with('error', 'Image not found');
     }
+
+    // Check if a new image was uploaded
+    if ($newImage) {
+        // Get the new filename and store it in the 'image_filename' column
+        $image->image_filename = $newImage->getClientOriginalName();
+
+        // You might want to handle the actual file upload here as well
+        // For example, you can move the uploaded file to a specific directory
+        $newImage->move('your_upload_directory', $newImage->getClientOriginalName());
+    }
+
+    $image->save();
+
+    return redirect()->back()->with('success', 'Image information updated successfully');
+}
+
 
     // Delete hotel image
     public function deleteImage(Request $request)
@@ -84,3 +109,4 @@ class HotelController extends Controller
         return redirect()->back()->with('success', 'Image deleted successfully');
     }
 }
+

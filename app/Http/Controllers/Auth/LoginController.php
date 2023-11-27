@@ -5,77 +5,69 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-//use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
     use AuthenticatesUsers {
         sendFailedLoginResponse as traitSendFailedLoginResponse;
+        showLoginForm as traitShowLoginForm;
     }
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected $username = 'email';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
 
-
-    protected $username;
-
-
     protected function sendFailedLoginResponse(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        \Illuminate\Support\Facades\Log::info('Login attempt failed', [
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
 
-        if ($user) {
-            // If the user with the provided email exists, but the password is incorrect
-            if (Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    $this->username() => [trans('auth.password_incorrect')],
-                ]);
-            }
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => [trans('auth.failed')],
+            ]);
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+
+        // Add a check for user status
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user && $user->Status == 'confirmed') {
+            return $this->guard()->attempt(
+                $credentials, $request->filled('remember')
+            );
         }
 
-        // If the user with the provided email does not exist
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.user_not_found')],
-        ]);
+        return false;
     }
 
 
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->role == 'admin') {
+            return redirect()->route('admin.edit.page');
+        }
+
+        return redirect()->intended($this->redirectPath());
+    }
 
 
+    // Override the trait's method to show your custom login form
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
 }
-
-
-
-
-
-
