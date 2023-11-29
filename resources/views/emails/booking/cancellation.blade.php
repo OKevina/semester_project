@@ -21,6 +21,6 @@
     <p>Thank you for using our service.</p>
 
     <p>Best regards,</p>
-    <p>Your Company Name</p>
+    <p>Travel and Tours ltd</p>
 </body>
 </html>

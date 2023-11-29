@@ -27,13 +27,14 @@ class BookingController extends Controller
         ]);
 
         // Create a new Booking instance with the necessary data
-        $booking = new Booking([
+        $booking = Booking::create([
             'users_id' => $user->id,
             'destination_id' => $hotel->destination_id,
             'NumTravelers' => $request->input('NumTravelers'),
             'TotalAmount' => $hotel->price * $request->input('NumTravelers'),
             'BookingDate' => now(),
         ]);
+
 
         // Save the booking
         $booking->save();
