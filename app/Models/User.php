@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'username',
-        'role', // Add 'role' to the $fillable array
+        'role',
     ];
 
     /**
@@ -55,5 +55,10 @@ class User extends Authenticatable
 
         // Set the default role if not provided
         $this->attributes['role'] = $this->attributes['role'] ?? 'user';
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
     }
 }

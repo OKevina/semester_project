@@ -73,36 +73,52 @@
         <div class="topnavleft">
             <a href="{{ route('home') }}" class="nav-link">Home</a>
             <a href="{{ route('destinations.index') }}" class="nav-link">Destinations</a>
-            <a href="{{ url('contactUs.html') }}" class="nav-link">Contact Us</a>
+
+            @if(auth()->check())
+            @if(auth()->user()->hasRole('admin'))
+                <a href="{{ route('admin.bookings') }}" class="nav-link">All Bookings</a>
+            @else
+                <a href="{{ route('user.bookings') }}" class="nav-link">My Bookings</a>
+            @endif
+        @endif
+
         </div>
 
         <div class="topnav">
-            @guest
+            <ul class="navbar-nav ms-auto">
+                <!-- Authentication Links -->
+                @guest
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
 
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
 
-    <!-- Show these links for guests (not authenticated users) -->
-      <a href="{{ route('register') }}" class="nav-link">Sign Up</a>
-      <a href="{{ route('login') }}" class="nav-link">Sign In</a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
 
-
-
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
-
-     @else
-                <!-- Show this link for authenticated users -->
-                <li>
-                <a href="{{ route('logout') }}"
-                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                 Sign Out
-                </a>
-            </li>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @endguest
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
     </div>
     </header>
 

@@ -9,7 +9,7 @@ class DestinationController extends Controller
 {
     public function index()
     {
-        $destinations = Destination::with('destination')->get();
+        $destinations = Destination::with('hotels')->get();
 
         return view('destination_page', compact('destinations'));
     }

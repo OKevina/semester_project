@@ -26,14 +26,20 @@ class BookingController extends Controller
             'NumTravelers' => 'required|integer|min:1',
         ]);
 
+        $hotel = Hotel::find($request->input('destination_id',));
+
+
         // Create a new Booking instance with the necessary data
         $booking = Booking::create([
             'users_id' => $user->id,
-            'destination_id' => $hotel->destination_id,
+            'destination_id' => $request->input('destination_id'),
             'NumTravelers' => $request->input('NumTravelers'),
-            'TotalAmount' => $hotel->price * $request->input('NumTravelers'),
+            'TotalAmount' => (float)$request->input('price') * (int)$request->input('NumTravelers') * (int)$request->input('Nights'),
+
             'BookingDate' => now(),
+            'Nights' => $request->input('Nights'),
         ]);
+
 
 
         // Save the booking
@@ -75,7 +81,7 @@ class BookingController extends Controller
 
     public function allBookings()
     {
-        $bookings = Booking::with(['user', 'destination'])->get();
+        $bookings = Booking::with(['user', 'hotel'])->get();
         return view('emails.booking.admin', compact('bookings'));
     }
 

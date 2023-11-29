@@ -9,12 +9,8 @@ class Destination extends Model
 {
     use HasFactory;
 
-    protected $table = 'destinations';
-
-    protected $primaryKey = 'id';
-
-    public function Destination()
+    public function hotels()
     {
-        return $this->hasMany(Destination::class);
+        return $this->hasMany(Hotel::class);
     }
 }

@@ -15,6 +15,7 @@ class Booking extends Model
             'NumTravelers',
             'TotalAmount',
             'BookingDate',
+            'Nights'
 
         ];
     protected $table = 'bookings';
@@ -26,11 +27,13 @@ class Booking extends Model
 
     public function hotel()
     {
-        return $this->belongsTo(Hotel::class, 'destination_id', 'id');
+        return $this->belongsTo(Hotel::class, 'destination_id', 'destination_id');
     }
 
     public function generateUniqueCode()
     {
         return 'BOOKING-' . Str::random(8);
     }
+
+
 }
