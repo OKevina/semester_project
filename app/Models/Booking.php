@@ -26,7 +26,7 @@ class Booking extends Model
 
     public function hotel()
     {
-        return $this->belongsTo(Hotel::class, 'destination_id', 'destination_id');
+        return $this->belongsTo(Hotel::class, 'destination_id', 'id');
     }
 
     public function generateUniqueCode()

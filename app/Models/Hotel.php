@@ -16,11 +16,13 @@ class Hotel extends Model
 
     public function destination()
     {
-        return $this->belongsTo(Destination::class);
+        return $this->belongsTo(Destination::class, 'destination_id', 'id');
     }
 
     public function images()
     {
         return $this->hasMany(HotelImage::class);
     }
+
+
 }

@@ -75,7 +75,7 @@ class BookingController extends Controller
     public function allBookings()
     {
         $bookings = Booking::with(['user', 'destination'])->get();
-        return view('booking.admin', compact('bookings'));
+        return view('emails.booking.admin', compact('bookings'));
     }
 
 }
