@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\API\MpesaController;
 use App\Mail\BookingCancellation;
 use App\Mail\BookingConfirmation;
 use App\Models\Booking;
@@ -17,40 +17,50 @@ class BookingController extends Controller
 
 
 {
-    public function bookTrip(Request $request, Hotel $hotel)
+    protected $mpesaController;
+
+    public function __construct(MpesaController $mpesaController)
     {
-        $user = auth()->user();
-
-        // Validate the request data
-        $request->validate([
-            'NumTravelers' => 'required|integer|min:1',
-        ]);
-
-        $hotel = Hotel::find($request->input('destination_id',));
-
-
-        // Create a new Booking instance with the necessary data
-        $booking = Booking::create([
-            'users_id' => $user->id,
-            'destination_id' => $request->input('destination_id'),
-            'NumTravelers' => $request->input('NumTravelers'),
-            'TotalAmount' => (float)$request->input('price') * (int)$request->input('NumTravelers') * (int)$request->input('Nights'),
-
-            'BookingDate' => now(),
-            'Nights' => $request->input('Nights'),
-        ]);
-
-
-
-        // Save the booking
-        $booking->save();
-
-        // Send confirmation email
-
-        Mail::to($user->email)->send(new BookingConfirmation($booking));
-
-        return redirect()->route('user.bookings')->with('success', 'Booking successful!');
+        $this->mpesaController = $mpesaController;
     }
+
+
+            public function bookTrip(Request $request, Hotel $hotel)
+        {
+            $user = auth()->user();
+
+            // Validate the request data
+            $request->validate([
+                'NumTravelers' => 'required|integer|min:1',
+            ]);
+
+            $hotel = Hotel::find($request->input('destination_id'));
+
+            // Create a new Booking instance with the necessary data
+            $booking = Booking::create([
+                'users_id' => $user->id,
+                'destination_id' => $request->input('destination_id'),
+                'NumTravelers' => $request->input('NumTravelers'),
+                'TotalAmount' => (float)$request->input('price') * (int)$request->input('NumTravelers') * (int)$request->input('Nights'),
+                'BookingDate' => now(),
+                'Nights' => $request->input('Nights'),
+            ]);
+
+            // Save the booking
+            $booking->save();
+
+            // Send confirmation email
+            Mail::to($user->email)->send(new BookingConfirmation($booking));
+
+            // Call functions from MpesaController
+            // $this->mpesaController->generateAccessToken();
+            // $this->mpesaController->STKPush($request);
+
+
+            // Redirect to the payment page
+            return redirect()->route('payment')->with('success', 'Booking successful!');
+        }
+
 
 
     public function cancelTrip($bookingId)

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\API\MpesaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,17 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/bookings', [BookingController::class, 'allBookings'])->name('admin.bookings');
     Route::get('/admin/edit', [AdminController::class, 'showEditPage'])->name('admin.edit.page');
 });
+
+
+Route::post('/perform-stk-push', [MpesaController::class, 'performStkPush'])->name('perform-stk-push');
+
+Route::post('/payment',[MpesaController::class,'show'])->name('payment');
+
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment');
+
+
+Route::get('/success', function () {
+    return view('success');
+})->name('success');

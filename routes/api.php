@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('v1/access/token', 'API\MpesaController@generateAccessToken');
+Route::post('v1/hlab/stk/push', 'API\MpesaController@STKPush');
