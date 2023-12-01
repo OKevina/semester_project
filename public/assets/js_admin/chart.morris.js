@@ -1,0 +1,1 @@
+function pieChart(){var paper=Raphael("pie-chart");paper.piechart(100,100,90,[18.373,18.686,2.867,23.991,9.592,0.213],{legend:["Windows/Windows Live","Server/Tools","Online Services","Business","Entertainment/Devices","Unallocated/Other"]});}
