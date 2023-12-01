@@ -66,8 +66,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 // Charts and Linegraph
 
 Route::get('/charts', [ChartController::class, 'index']);
+<<<<<<< HEAD
 Route::get('/linegraph', [ChartController::class, 'generateLineGraph'])->name('linegraph');
 
+=======
+Route::get('/linegraph', [ChartController::class, 'generateLineGraph']);
+>>>>>>> c4763567a73fe9108862537b35c2e03eb4fe2a41
 
 Route::post('/perform-stk-push', [MpesaController::class, 'performStkPush'])->name('perform-stk-push');
 
