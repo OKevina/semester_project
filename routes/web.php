@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\API\MpesaController;
+use App\Http\Controllers\ChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/edit', [AdminController::class, 'showEditPage'])->name('admin.edit.page');
 });
 
+// Charts and Linegraph
+
+Route::get('/charts', [ChartController::class, 'index']);
+Route::get('/linegraph', [ChartController::class, 'generateLineGraph']);
 
 Route::post('/perform-stk-push', [MpesaController::class, 'performStkPush'])->name('perform-stk-push');
 
