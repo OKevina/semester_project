@@ -73,6 +73,7 @@
         <div class="topnavleft">
             <a href="{{ route('home') }}" class="nav-link">Home</a>
             <a href="{{ route('destinations.index') }}" class="nav-link">Destinations</a>
+            <a href="{{ route('linegraph') }}" class="nav-link">Charts</a>
 
             @if(auth()->check())
             @if(auth()->user()->hasRole('admin'))
